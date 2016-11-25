@@ -40,16 +40,7 @@ ngrok.connect(port, function (err, url) {
 
 
   sparky.setupServer(port, function(err, server) {
-
-    server.get('/', function(req, res) {
-      res.send('server running');
-    });
-
-    server.post('/', function(req, res) {
-      res.send('post running');
-    });
-
-    sparky.setupEndpoint(server, function() {});
+    sparky.setupEndpoint(server);
   });
 });
 
