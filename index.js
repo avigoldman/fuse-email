@@ -14,23 +14,9 @@ ngrok.connect(port, function (err, url) {
     sending_address: 'robot@sendmailfor.me',
     inbound_address: 'robot@sendmailfor.me',
     domain: url,
+    restrict_inbound: false,
     setup: true
   });
-
-  // Events
-  // direct_email - email sent directly to the bot
-  // cc_email - email was sent with the bot cc'ed
-  // bcc_email - email was send with the bot bcc'ed
-  // mention - the bot's name was said in an email
-  // direct_mention - the bot's sending/inbound address was said in an email
-  // email_received - an email of anytype was send to the bot
-
-  // Bot
-  // say - sends a new email
-  // reply - sends a response email to the given message
-  // startConversation - starts a conversation
-  // 
-
 
   sparky.on('email_received', function(bot, message) {
     bot.reply(message, {
@@ -41,22 +27,22 @@ ngrok.connect(port, function (err, url) {
 
   sparky.setupServer(port, function(err, server) {
     sparky.setupEndpoint(server, function() {
-      sparky.processMessage({
-        "content": {
-          "headers": [],
-          "html": "<p>Hi there <strong>SparkPostians</strong>.</p>",
-          "subject": "We come in peace",
-          "text": "Hi there SparkPostians.",
-          "to": [
-            "robot@sendmailfor.me"
-          ],
-          "cc": [
-            "jhacks.umd@gmail.com"
-          ]
-        },
-        "msg_from": "avigoldmankid@gmail.com",
-        "rcpt_to": "robot@sendmailfor.me",
-      });
+      // sparky.processMessage({
+      //   "content": {
+      //     "headers": [],
+      //     "html": "<p>Hi there <strong>SparkPostians</strong>.</p>",
+      //     "subject": "We come in peace",
+      //     "text": "Hi there SparkPostians.",
+      //     "to": [
+      //       "robot@sendmailfor.me"
+      //     ],
+      //     "cc": [
+      //       "jhacks.umd@gmail.com"
+      //     ]
+      //   },
+      //   "msg_from": "avigoldmankid@gmail.com",
+      //   "rcpt_to": "robot@sendmailfor.me",
+      // });
     });
   });
 });
