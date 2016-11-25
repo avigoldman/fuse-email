@@ -40,21 +40,23 @@ ngrok.connect(port, function (err, url) {
 
 
   sparky.setupServer(port, function(err, server) {
-    sparky.setupEndpoint(server);
+    sparky.setupEndpoint(server, function() {
+      sparky.processMessage({
+        "content": {
+          "headers": [],
+          "html": "<p>Hi there <strong>SparkPostians</strong>.</p>",
+          "subject": "We come in peace",
+          "text": "Hi there SparkPostians.",
+          "to": [
+            "robot@sendmailfor.me"
+          ],
+          "cc": [
+            "jhacks.umd@gmail.com"
+          ]
+        },
+        "msg_from": "avigoldmankid@gmail.com",
+        "rcpt_to": "robot@sendmailfor.me",
+      });
+    });
   });
 });
-
-
-//   sparky.processMessage({
-    //     "content": {
-    //       "headers": [],
-    //       "html": "<p>Hi there <strong>SparkPostians</strong>.</p>",
-    //       "subject": "We come in peace",
-    //       "text": "Hi there SparkPostians.",
-    //       "to": [
-    //         "robot@aymlab.com"
-    //       ]
-    //     },
-    //     "msg_from": "avigoldmankid@gmail.com",
-    //     "rcpt_to": "robot@aymlab.com",
-    //   });
