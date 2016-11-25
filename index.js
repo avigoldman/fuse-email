@@ -8,10 +8,10 @@ ngrok.connect(port, function (err, url) {
 
   var sparky = Sparky({
     email_key: '056cf4213c89156180708f57e3a38bed59451563',
-    auth_token: 'my_secret_key2',
-    bot_name: 'robot',
+    auth_token: 'my_secret_key',
+    bot_name: 'sparky',
     // address: 'robot@aymlab.com', // sending_address and inbound_address can extend from this
-    sending_address: 'robot@aymlab.com',
+    sending_address: 'robot@sendmailfor.me',
     inbound_address: 'robot@sendmailfor.me',
     domain: url,
     setup: true
@@ -31,24 +31,10 @@ ngrok.connect(port, function (err, url) {
   // startConversation - starts a conversation
   // 
 
-  sparky.on('direct_email', function(bot, message) {
-    console.log('direct mail!');
-    console.log(message._raw);
-  });
-
-  sparky.on('mention', function(bot, message) {
-    bot.say({
-      'subject': 'Did someone say my name?',
-      'body': 'Yes you did!',
-    });
-  });
-
 
   sparky.on('email_received', function(bot, message) {
-    bot.say({
-      'recipients': [ { 'address': 'avigoldmankid@gmail.com' } ],
-      'subject': 'forward email',
-      'body': message._raw.content.html,
+    bot.reply(message, {
+      'body': 'Hello back to you'
     });
   });
 
