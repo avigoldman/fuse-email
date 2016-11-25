@@ -3,9 +3,9 @@ var Sparky = require('./lib/bot.js');
 var sparky = Sparky({
   email_key: '056cf4213c89156180708f57e3a38bed59451563',
   bot_name: 'robot',
-  sending_address: 'robot@sendmailfor.me',
+  address: 'robot@aymlab.com', // sending_address and inbound_address can extend from this
+  sending_address: 'robot@aymlab.com',
   inbound_address: 'robot@sendmailfor.me',
-  // sending_address and inbound_address can extend from address: 'robot@aymlab.com',
   domain: 'https://infinite-springs-29395.herokuapp.com',
 });
 
