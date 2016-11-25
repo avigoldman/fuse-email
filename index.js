@@ -3,8 +3,8 @@ var Sparky = require('./lib/bot.js');
 var sparky = Sparky({
   email_key: '056cf4213c89156180708f57e3a38bed59451563',
   bot_name: 'robot',
-  sending_address: 'robot@aymlab.com',
-  inbound_address: 'robot@aymlab.com',
+  sending_address: 'robot@sendmailfor.me',
+  inbound_address: 'robot@sendmailfor.me',
   // sending_address and inbound_address can extend from address: 'robot@aymlab.com',
   domain: 'https://infinite-springs-29395.herokuapp.com',
 });
@@ -45,18 +45,18 @@ sparky.on('email_received', function(bot, message) {
 
 sparky.setupServer(process.env.PORT || 3000, function(err, server) {
   sparky.setupEndpoint(server, function() {
-    sparky.processMessage({
-      "content": {
-        "headers": [],
-        "html": "<p>robot Hi there <strong>SparkPostians</strong>.</p>",
-        "subject": "We come in peace",
-        "text": "robot Hi there SparkPostians.",
-        "to": [
-          "robot@aymlab.com"
-        ]
-      },
-      "msg_from": "avigoldmankid@gmail.com",
-      "rcpt_to": "robot@aymlab.com",
-    });
+    // sparky.processMessage({
+    //   "content": {
+    //     "headers": [],
+    //     "html": "<p>robot Hi there <strong>SparkPostians</strong>.</p>",
+    //     "subject": "We come in peace",
+    //     "text": "robot Hi there SparkPostians.",
+    //     "to": [
+    //       "robot@aymlab.com"
+    //     ]
+    //   },
+    //   "msg_from": "avigoldmankid@gmail.com",
+    //   "rcpt_to": "robot@aymlab.com",
+    // });
   });
 });
