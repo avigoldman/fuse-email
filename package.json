@@ -14,6 +14,7 @@
     "express": "^4.14.0",
     "html-to-text": "^2.1.3",
     "lodash": "^4.17.2",
+    "node-uuid": "^1.4.7",
     "sparkpost": "git://github.com/SparkPost/node-sparkpost.git#cc-and-bcc"
   },
   "devDependencies": {
