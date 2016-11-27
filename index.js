@@ -18,20 +18,25 @@ ngrok.connect(port, function (err, url) {
     setup: true,
   });
 
-  sparky.hears('hello', 'email_received', function(bot, message) {
-    bot.reply(message, {
-      'body': 'Hello back to you'+JSON.stringify(message.matches, null, 2)
-    });
-  });
+  // sparky.hears('hello', 'email_received', function(bot, message) {
+  //   bot.reply(message, {
+  //     'body': 'Hello back to you'+JSON.stringify(message.matches, null, 2)
+  //   });
+  // });
 
   sparky.on('email_received', function(bot, message) {
 
-    bot.startConversation(message, function(err, convo) {
+    bot.startConversation('Tell me about yourself!', function(convo) {
 
-      convo.ask('What\'s your name?', function(convo, response) {
+      convo.ask({
+        body: 'What\'s your name?'
+      }, function(convo, response) {
         
-        convo.say('Hi '+sparky.clean(reponse.text));
-        convo.next();
+        convo.say({
+          body: 'Hi ' + sparky.clean(response.text)
+        });
+
+        convo.end();
       });
 
     }); 
@@ -50,9 +55,6 @@ ngrok.connect(port, function (err, url) {
           "text": "Hi there SparkPostians.",
           "to": [
             "robot@sendmailfor.me"
-          ],
-          "cc": [
-            "jhacks.umd@gmail.com"
           ]
         },
         "msg_from": "avigoldmankid@gmail.com",
