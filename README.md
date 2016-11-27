@@ -231,6 +231,9 @@ Name | Type | Description
 `message.bcc` | `Array` |  An array of SparkPost-formatted recipients to receive a blind carbon copy.
 `message.template_id` | `String` | The SparkPost template to use. This is used instead of the subject, body, text, and headers. *This does not work with `reply` or conversations*
 `message.substitution_data` | `String` | Any substitution data for the email.
+`message.attachments` | `Array` | An array of attachments to send with the email. See the [SparkPost docs](https://developers.sparkpost.com/api/transmissions.html#header-attachment-attributes) for more details.
+`message.from` | `String` | Overrides the sending_address for this message.
+`message.reply_to` | `String` | Overrides the inbound_address for this message.
 
 #### `bot.reply(message)`
 

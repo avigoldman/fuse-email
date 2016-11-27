@@ -31,7 +31,7 @@ ngrok.connect(port, function (err, url) {
       convo.ask({
         body: 'What\'s your name?'
       }, function(convo, response) {
-        
+        console.log(JSON.stringify(response, null, 2));
         convo.say({
           body: 'Hi ' + sparky.clean(response.text)
         });
@@ -47,19 +47,19 @@ ngrok.connect(port, function (err, url) {
   // start the server
   sparky.setupServer(port, function(err, server) {
     sparky.setupEndpoint(server, function() {
-      sparky.processMessage({
-        "content": {
-          "headers": [],
-          "html": "<p>Hello there <strong>SparkPostians</strong>.</p>",
-          "subject": "We come in peace",
-          "text": "Hi there SparkPostians.",
-          "to": [
-            "robot@sendmailfor.me"
-          ]
-        },
-        "msg_from": "avigoldmankid@gmail.com",
-        "rcpt_to": "robot@sendmailfor.me",
-      });
+      // sparky.processMessage({
+      //   "content": {
+      //     "headers": [],
+      //     "html": "<p>Hello there <strong>SparkPostians</strong>.</p>",
+      //     "subject": "We come in peace",
+      //     "text": "Hi there SparkPostians.",
+      //     "to": [
+      //       "robot@sendmailfor.me"
+      //     ]
+      //   },
+      //   "msg_from": "avrahamymgoldman@gmail.com",
+      //   "rcpt_to": "robot@sendmailfor.me",
+      // });
     });
   });
 });
