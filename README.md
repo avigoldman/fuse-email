@@ -6,12 +6,13 @@
 SparkyBot is a botkit-inspired framework written around the SparkPost API to make it easy to create email bots.
 
 ##### Table of Contents
-[Getting Started](#getting-started)
-[Initialization](#initialization)
-[Start Listening]()
-[Receiving Messages](#receiving-messages)
-[Sending Messages](#sending-messages)
-[Having Conversations](#having-conversations)
+[Getting Started](#getting-started)<br>
+[Initialization](#initialization)<br>
+[Start Listening](#start-listening)<br>
+[Receiving Messages](#receiving-messages)<br>
+[Sending Messages](#sending-messages)<br>
+[Having Conversations](#having-conversations)<br>
+[Helper Functions](#helper-functions)<br>
 
 
 ## Getting Started
@@ -235,9 +236,19 @@ Name | Type | Description
 `message.from` | `String` | Overrides the sending_address for this message.
 `message.reply_to` | `String` | Overrides the inbound_address for this message.
 
-#### `bot.reply(message)`
+#### `bot.reply(receivedMessage, yourMessage)`
 
 This method is identical to the `say` method except it will reply to the sent message. As such you can not set the `subject`, `recipients`, or `cc`.
+
+```
+sparky.on('email_received', function(bot, message) {
+  
+  bot.reply(message, {
+    'body': 'I got your message!'
+  });
+
+});
+```
 
 
 ## Having Conversations
@@ -279,17 +290,25 @@ bot.startConversation('Tell me about yourself!', function(convo) {
   convo.ask({
     body: 'What\'s your name?'
   }, function(convo, response) {
+
     convo.say({
-      body: 'Nice to meet you'
+      body: 'Nice to meet you, ' + sparky.getLatest(response)
     });
 
-    convo.end();
   });
+
 }); 
 ```
 
 #### `convo.end()`
-Call this function to end the conversation.
+Call this function to end the conversation. The conversation will end by default if no question is asked.
 
-__Note: A conversation will automatically end it is replied to but there is no handler. That message will be lost.__
 
+## Helper functions
+These are a few functions to make your life easier.
+
+#### `sparky.clean(str)`
+Returns the given string stripped of any html tags, trailing spaces, and line breaks.
+
+#### `sparky.getLatest`
+Returns the latest text message from an email thread.
