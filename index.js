@@ -1,5 +1,6 @@
 'use strict';
 const ngrok = require('ngrok');
+const fs = require('fs');
 var SparkyBot = require('./lib/bot.js');
 
 var port = process.env.PORT || 3000;
@@ -25,15 +26,13 @@ ngrok.connect(port, function (err, url) {
   // });
 
   sparky.on('email_received', function(bot, message) {
-
     bot.startConversation('Tell me about yourself!', function(convo) {
 
       convo.ask({
         body: 'What\'s your name?'
       }, function(convo, response) {
-        console.log(JSON.stringify(response, null, 2));
         convo.say({
-          body: 'Hi ' + sparky.clean(response.text)
+          body: 'Hi ' + sparky.clean(sparky.getLatest(response))
         });
 
         convo.end();
@@ -47,19 +46,12 @@ ngrok.connect(port, function (err, url) {
   // start the server
   sparky.setupServer(port, function(err, server) {
     sparky.setupEndpoint(server, function() {
-      // sparky.processMessage({
-      //   "content": {
-      //     "headers": [],
-      //     "html": "<p>Hello there <strong>SparkPostians</strong>.</p>",
-      //     "subject": "We come in peace",
-      //     "text": "Hi there SparkPostians.",
-      //     "to": [
-      //       "robot@sendmailfor.me"
-      //     ]
-      //   },
-      //   "msg_from": "avrahamymgoldman@gmail.com",
-      //   "rcpt_to": "robot@sendmailfor.me",
-      // });
+      // var data = JSON.parse(fs.readFileSync('./test.json', {
+      //   encoding: 'utf8'
+      // }))._raw;
+      // console.log(Object.keys(data));
+      // console.log(sparky.convos.length);
+      // sparky.processMessage(data);
     });
   });
 });

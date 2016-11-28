@@ -19,6 +19,8 @@
     "sparkpost": "git://github.com/SparkPost/node-sparkpost.git#cc-and-bcc"
   },
   "devDependencies": {
+    "axios": "^0.15.3",
+    "dotenv": "^2.0.0",
     "ngrok": "^2.2.4"
   }
 }
