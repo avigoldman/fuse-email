@@ -80,8 +80,13 @@ npm install sparkybot
 * `config.endpoint`
   * Required: no
   * Type: `String`
-  * The path to send the relay webhook to
-  * Default `/relay`
+  * Default: `/relay`
+  * The path to send the relay webhook to  
+* `config.bot_name`
+  * Required: no
+  * Type: `String`
+  * Default: `Sparky`
+  * The name of your bot
 * `config.auth_token`
   * Required: no
   * Type: `String`
@@ -99,8 +104,8 @@ npm install sparkybot
 * `config.debug_mode`
   * Required: no
   * Type: `Boolean`
-  * Toggles if the bot will send emails
   * Default: `false`
+  * Toggles if the bot will send emails
 
 
 Next you'll need to create an instance of the bot 
