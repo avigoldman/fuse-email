@@ -2,17 +2,17 @@
 
 require('dotenv').config();
 
-var SparkyBot = require('../lib/bot.js');
+var EmailBot = require('../lib/bot.js');
 
 var port = process.env.PORT || 3000;
 
 // create the email bot
-var sparky = SparkyBot({
+var sparky = EmailBot({
   email_key: process.env.SPARKPOST_KEY,
   bot_name: 'Me', 
   sending_address: 'me@sendmailfor.me',
   inbound_address: 'me@sendmailfor.me',
-  domain: url
+  domain: YOUR_DOMAIN
 });
 
 

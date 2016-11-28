@@ -305,13 +305,15 @@ bot.startConversation('Tell me about yourself!', function(convo) {
       }
     });
 
+    convo.end();
+
   });
 
 }); 
 ```
 
 #### `convo.end()`
-Call this function to end the conversation. The conversation will end by default if no question is asked.
+Call this function to end the conversation.
 
 
 ## Helper functions

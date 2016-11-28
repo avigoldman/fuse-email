@@ -2,49 +2,46 @@
 
 require('dotenv').config();
 
-const ngrok = require('ngrok');
 const fs = require('fs');
 const axios = require('axios');
 const template = fs.readFileSync('./templates/giphy-responder.html', { encoding: 'utf8' });
 
-var SparkyBot = require('../lib/bot.js');
+var EmailBot = require('../lib/bot.js');
 
 var port = process.env.PORT || 3000;
 
-ngrok.connect(port, function (err, url) {
-  // create the email bot
-  var sparky = SparkyBot({
-    email_key: process.env.SPARKPOST_KEY,
-    bot_name: 'Gif me', 
-    sending_address: 'gifme@sendmailfor.me',
-    inbound_address: 'gifme@sendmailfor.me',
-    domain: url
-  });
+// create the email bot
+var sparky = EmailBot({
+  email_key: process.env.SPARKPOST_KEY,
+  bot_name: 'Gif me', 
+  sending_address: 'gifme@sendmailfor.me',
+  inbound_address: 'gifme@sendmailfor.me',
+  domain: YOUR_DOMAIN
+});
 
 
-  sparky.setupServer(port, function(err, server) {
-    sparky.setupEndpoint(server);
-  });
+sparky.setupServer(port, function(err, server) {
+  sparky.setupEndpoint(server);
+});
 
-  sparky.on('email_received', function(bot, message) {
+sparky.on('email_received', function(bot, message) {
 
-    getGifs(message.subject, (err, gifs) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  getGifs(message.subject, (err, gifs) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
 
-      bot.reply(message, {
-        html: template,
-        text: 'HTML is required',
-        substitution_data: {
-          search: message.subject,
-          gifs: gifs
-        },
-      });
+    bot.reply(message, {
+      html: template,
+      text: 'HTML is required',
+      substitution_data: {
+        search: message.subject,
+        gifs: gifs
+      },
+    });
 
-    })
-  });
+  })
 });
 
 var getGifs = function (subject, cb) {
