@@ -64,7 +64,7 @@ var getGifs = function (subject, cb) {
       gifs.push({
         src: data[i].images.fixed_height_small.url,
         url: data[i].url
-      })
+      });
     }
 
     cb(null, gifs);

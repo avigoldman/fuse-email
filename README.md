@@ -175,8 +175,8 @@ Example:
 ```
 sparky.on('email_received', function(bot, message) {
   bot.say({
-    'subject': 'Hello World',
-    'body': 'What a nice day we are having!'
+    subject: 'Hello World',
+    body: 'What a nice day we are having!'
   });
 });
 ```
@@ -190,12 +190,12 @@ The `hears` function works just like the `on` function except it takes an extra 
 Example:
 ```
 sparky.hears({
-  'subject': ['hello', 'hi'],
-  'body': ['howdy', 'sup'],
+  subject: ['hello', 'hi'],
+  body: ['howdy', 'sup'],
 }, 'direct_email', function(bot, message) {
   bot.say({
-    'subject': 'Hello there',
-    'body': 'Hello to you too!'
+    subject: 'Hello there',
+    body: 'Hello to you too!'
   });
 });
 ```
@@ -216,11 +216,11 @@ This will send send a new email with the given content or template. If none are 
 
 ```
 bot.say({
-  'subject': 'Hello World',
-  'body': '<h2>What a nice {{time}} we are having!</h2>',
-  'text': 'What a nice {{time}} we are having!',
-  'substitution_data': {
-  	'time': 'day'
+  subject: 'Hello World',
+  body: '<h2>What a nice {{time}} we are having!</h2>',
+  text: 'What a nice {{time}} we are having!',
+  substitution_data: {
+  	time: 'day'
   }
 });
 ```
@@ -249,7 +249,7 @@ This method is identical to the `say` method except it will reply to the sent me
 sparky.on('email_received', function(bot, message) {
   
   bot.reply(message, {
-    'body': 'I got your message!'
+    body: 'I got your message!'
   });
 
 });
@@ -295,9 +295,14 @@ bot.startConversation('Tell me about yourself!', function(convo) {
   convo.ask({
     body: 'What\'s your name?'
   }, function(convo, response) {
+  
+    let name = sparky.clean(sparky.getLatest(response));
 
     convo.say({
-      body: 'Nice to meet you, ' + sparky.getLatest(response)
+      body: 'Nice to meet you, {{name}}',
+      substitution_data: {
+        name: name
+      }
     });
 
   });
@@ -315,5 +320,5 @@ These are a few functions to make your life easier.
 #### `sparky.clean(str)`
 Returns the given string stripped of any html tags, trailing spaces, and line breaks.
 
-#### `sparky.getLatest`
+#### `sparky.getLatest(message)`
 Returns the latest text message from an email thread.

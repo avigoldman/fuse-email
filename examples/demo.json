@@ -1,5 +1,5 @@
 {
-  "rcpt_to": "gifme@sendmailfor.me",
+  "rcpt_to": "me@sendmailfor.me",
   "friendly_from": "avigoldmankid@gmail.com",
   "customer_id": "56760",
   "content": {
@@ -47,7 +47,7 @@
         "Subject": "test"
       },
       {
-        "To": "\"gifme@sendmailfor.me\" <gifme@sendmailfor.me>"
+        "To": "\"me@sendmailfor.me\" <me@sendmailfor.me>"
       },
       {
         "Content-Type": "multipart/alternative; boundary=001a11428e6a36f361054255b82c"
@@ -56,7 +56,7 @@
     "email_rfc822": "Return-Path: <avigoldmankid@gmail.com>\nAuthentication-Results:  momentum3.platform1.us-west-2.aws.cl.messagesystems.com x-tls.subject=\"/C=US/ST=California/L=Mountain View/O=Google Inc/CN=smtp.gmail.com\"; auth=pass (cipher=ECDHE-RSA-AES128-GCM-SHA256)\nReceived: from [209.85.161.169] ([209.85.161.169:34527] helo=mail-yw0-f169.google.com)\n\tby momentum3.platform1.us-west-2.aws.cl.messagesystems.com (envelope-from <avigoldmankid@gmail.com>)\n\t(ecelerity 4.2.27.57778 r(Core:4.2.27.2)) with ESMTPS (cipher=ECDHE-RSA-AES128-GCM-SHA256\n\tsubject=\"/C=US/ST=California/L=Mountain View/O=Google Inc/CN=smtp.gmail.com\") \n\tid A9/DD-23602-E10CB385; Mon, 28 Nov 2016 05:26:55 +0000\nReceived: by mail-yw0-f169.google.com with SMTP id t125so106546113ywc.1\n        for <gifme@sendmailfor.me>; Sun, 27 Nov 2016 21:26:54 -0800 (PST)\nDKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\n        d=gmail.com; s=20120113;\n        h=mime-version:from:date:message-id:subject:to;\n        bh=9TuDqd1ZEiLegWMLDjgG4xl5R7uf9x+0vWMuoDogI0Y=;\n        b=aMIwm7jl4n2ogQYSooiUUIPBkYjxtVo9JFLGMTVIePRKboy3RN67Fq/dnD0LUQMxpa\n         7iHyuAQvVzYo/FFHeSmxIkcT4xOF3P5XWI72HrkAupNmXmGEAFxZ7XFXnGCaHxKuprxj\n         Hlcgfoyo3XC0RYkkoRALud0PW5oA0niTxucxjd7mIGsRo/rl2h2PrCQvhnTiaDuvp/s3\n         Rvl7hoV1/okVGRxEs31Rhn1lk0rnIK3OeEPBdua8fQlkbCLUj5jXRmDyP9iqYxeEHKEM\n         A7cxlMNZHAN3yP+6ObN4OmrZhW4wuIrooejikRDUzEXvaSH+pPoJwp0DwKa+wHMKdQKo\n         tWQQ==\nX-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\n        d=1e100.net; s=20130820;\n        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;\n        bh=9TuDqd1ZEiLegWMLDjgG4xl5R7uf9x+0vWMuoDogI0Y=;\n        b=RTyLeuG37gMSl8S3nojFenn85ay3JVc1TR7BNoDXoJacgKh9T4Wg/XOvjhsQeBxGPR\n         mwNvj3mQHh0xvvaK+f2ocWB9oTDVbH0O/qawBGLwlRw1OE0qMktAydovOAZZr3ZUIt3o\n         LppF7xKWwXZU9K91n5WwxeJgMKX/i32KSx/KgS0uUF0iVZOdbLFNO+Tcnn7VaiFZln/4\n         taMZwzCdiUgQ/gwjhHhF4Zc5AUsdNZv7uIkkguGPxBoIAUdLwAvBfxONdQ3HxZE4pp9D\n         LY0kyez9FiONqQsNleYcsmATl+GHyLjfYqV9yS3NB/gGXg1j0jCBrOHGDBZcpp+IBgkB\n         AKZg==\nX-Gm-Message-State: AKaTC01NdzOZIjQoYHBa1w7y0c0hItFFLNDVIWWA/AkRXu/ElSKHqBHFp4NtvkpxlFsZppLorPiFOE6KI1b1iw==\nX-Received: by 10.129.35.12 with SMTP id j12mr24237369ywj.250.1480310813812;\n Sun, 27 Nov 2016 21:26:53 -0800 (PST)\nMIME-Version: 1.0\nFrom: Avraham Goldman <avigoldmankid@gmail.com>\nDate: Mon, 28 Nov 2016 05:26:43 +0000\nMessage-ID: <CAEiGWX-944ZH0YkJNxtBkZ1i6uc0rHqO0gyS+LmPhpoW0=qsPA@mail.gmail.com>\nSubject: test\nTo: \"gifme@sendmailfor.me\" <gifme@sendmailfor.me>\nContent-Type: multipart/alternative; boundary=001a11428e6a36f361054255b82c\n\n--001a11428e6a36f361054255b82c\nContent-Type: text/plain; charset=UTF-8\n\n\n\n--001a11428e6a36f361054255b82c\nContent-Type: text/html; charset=UTF-8\n\n<div dir=\"ltr\"><br></div>\n\n--001a11428e6a36f361054255b82c--\n",
     "email_rfc822_is_base64": false,
     "to": [
-      "gifme@sendmailfor.me"
+      "me@sendmailfor.me"
     ]
   },
   "msg_from": "avigoldmankid@gmail.com",
