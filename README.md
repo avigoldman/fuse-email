@@ -51,7 +51,7 @@ Name | Type | Data | Priority
 
 
 ## Setting up the bot
-Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxtoolbox.com/), its time to build your bot.
+Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxtoolbox.com/)), its time to build your bot.
 
 ### Installation
 ```
