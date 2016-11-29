@@ -1,9 +1,9 @@
-# SparkyBot
+# Email Bot Framework
 ### A framework for writing email bots using SparkPost
 
 [SparkPost](https://sparkpost.com) is a cloud email service that allows developers to send and receive emails.
 
-SparkyBot is a botkit-inspired framework written around the SparkPost API to make it easy to create email bots.
+This is a botkit-inspired framework written around the SparkPost API to make it easy to create email bots.
 
 ##### Table of Contents
 [Getting Started](#getting-started)<br>
@@ -55,12 +55,12 @@ Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxto
 
 ### Installation
 ```
-npm install sparkybot
+npm install thename
 ```
 
 ## Initialization
 
-#### SparkyBot(config)
+#### EmailBot(config)
 * `config.email_key`
   * Required: yes
   * Type: `String`
@@ -110,9 +110,9 @@ npm install sparkybot
 
 Next you'll need to create an instance of the bot 
 ```
-var SparkyBot = require('sparkybot');
+var EmailBot = require('thename');
 
-var sparky = SparkyBot({
+var sparky = EmailBot({
     email_key: 'SPARKPOST_API_KEY',
     bot_name: 'MY_BOT_NAME',
     sending_address: 'robot@MY_SENDING_DOMAIN',
@@ -143,6 +143,14 @@ sparky.setupServer(3000, function(err, server) {
 ```
 
 ## Receiving Messages
+
+### The events
+Name | Description
+---- | -----------
+`direct_email` | The bot received an email as an original recipient
+`cc_email` | The bot received an email as a cc'd recipient
+`bcc_email` | The bot received an email as a bcc'd recipient
+`email_received` | The bot received an email - this always fires unless there is a conversation happening
 
 ### The `message` object
 The message object is returned to the event listeners.
