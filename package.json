@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/istanbul cover --report lcov --dir test/reports/ ./node_modules/.bin/_mocha ./test/**/*.spec.js -- --colors --reporter spec"
   },
   "author": "",
   "license": "ISC",
@@ -14,13 +14,18 @@
     "express": "^4.14.0",
     "html-to-text": "^2.1.3",
     "lodash": "^4.17.2",
-    "node-uuid": "^1.4.7",
     "parse-reply": "0.0.4",
-    "sparkpost": "git://github.com/SparkPost/node-sparkpost.git#cc-and-bcc"
+    "sparkpost": "git://github.com/SparkPost/node-sparkpost.git#ignore-empty-sugar",
+    "uniqid": "^4.1.1"
   },
   "devDependencies": {
     "axios": "^0.15.3",
+    "chai": "^3.5.0",
+    "chai-sinon": "^2.8.1",
     "dotenv": "^2.0.0",
-    "ngrok": "^2.2.4"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "ngrok": "^2.2.4",
+    "sinon": "^1.17.7"
   }
 }
