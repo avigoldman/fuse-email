@@ -64,7 +64,7 @@ npm install thename
 * `config.email_key`
   * Required: yes
   * Type: `String`
-  * A SparkPost API Key
+  * An API Key
 * `config.sending_address`
   * Required: yes
   * Type: `String`
@@ -82,7 +82,7 @@ npm install thename
   * Type: `String`
   * Default: `/relay`
   * The path to send the relay webhook to  
-* `config.bot_name`
+* `config.name`
   * Required: no
   * Type: `String`
   * Default: `Sparky`
@@ -90,7 +90,7 @@ npm install thename
 * `config.auth_token`
   * Required: no
   * Type: `String`
-  * An Authentication Token for SparkPost for the relay webhook to use to verify its identity
+  * An Authentication Token for the relay webhook to use to verify its identity
 * `config.restrict_inbound`
   * Required: no
   * Type: `Boolean`
@@ -100,7 +100,12 @@ npm install thename
   * Required: no
   * Type: `Boolean`
   * Default: `true`
-  * Whether or not to run the SparkPost setup which verifies/adds your sending domain/inbound domain/and relay webhook. *Should be turned off in production.*
+  * Whether or not to run the setup with the transport *Should be turned off in production.*
+* `config.transport`
+  * Required: no
+  * Type: `String`
+  * Default: `SparkPost`
+  * The transport to use
 * `config.debug_mode`
   * Required: no
   * Type: `Boolean`
@@ -114,7 +119,7 @@ var EmailBot = require('thename');
 
 var sparky = EmailBot({
     email_key: 'SPARKPOST_API_KEY',
-    bot_name: 'MY_BOT_NAME',
+    name: 'NAME',
     sending_address: 'robot@MY_SENDING_DOMAIN',
     inbound_address: 'robot@MY_INBOUND_DOMAIN',
     domain: 'MY_DOMAIN'
@@ -220,7 +225,7 @@ var bot = sparky.bot();
 Keep in mind that the `reply` and `startPrivateConversation` methods will not work as they are reactions to received messages.
 
 #### `bot.say(message)`
-This will send send a new email with the given content or template. If none are given, the recipients, cc, and bcc will default to the values from the received email.
+This will send send a new email with the given content. If none are given, the recipients, cc, and bcc will default to the values from the received email.
 
 ```
 bot.say({
@@ -236,14 +241,13 @@ bot.say({
 ##### Message options
 Name | Type | Description
 ---- | ---- | -----------
-`message.subject` | `String` | The subject of the email. The message must have a subject, body or template at minimum.
-`message.body` or `message.html` | `String` | The body of the email. The message must have a subject, body or template at minimum.
-`message.text` | `String` | If this is not given then it will be generated from the html
+`message.subject` | `String` | The subject of the email.
+`message.body` or `message.html` | `String` | The body of the email.
+`message.text` | `String` | If this is not given then it will be generated from the html.
 `message.headers` | `Object` | Email headers other than “Subject”, “From”, “To”, and “Reply-To”
 `message.recipients` | `Array` | An array of SparkPost-formatted recipients. [SparkPost recipient format.](https://developers.sparkpost.com/api/recipient-lists.html#header-recipient-attributes)
 `message.cc` | `Array` |  An array of SparkPost-formatted recipients to receive a carbon copy.
 `message.bcc` | `Array` |  An array of SparkPost-formatted recipients to receive a blind carbon copy.
-`message.template_id` | `String` | The SparkPost template to use. This is used instead of the subject, body, text, and headers. *This does not work with `reply` or conversations*
 `message.substitution_data` | `String` | Any substitution data for the email.
 `message.attachments` | `Array` | An array of attachments to send with the email. See the [SparkPost docs](https://developers.sparkpost.com/api/transmissions.html#header-attachment-attributes) for more details.
 `message.from` | `String` | Overrides the sending_address for this message.
