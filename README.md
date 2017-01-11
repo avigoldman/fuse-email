@@ -1,9 +1,11 @@
+[![Build Status](https://travis-ci.org/avrahamgoldman/email-bot-framework.svg?branch=master)](https://travis-ci.org/avrahamgoldman/email-bot-framework)
+
 # Email Bot Framework
-### A framework for writing email bots using SparkPost
+### A framework for writing conversational email responders
 
 [SparkPost](https://sparkpost.com) is a cloud email service that allows developers to send and receive emails.
 
-This is a botkit-inspired framework written around the SparkPost API to make it easy to create email bots.
+This is a botkit-inspired framework written around the SparkPost API to make it easy to automate email conversations.
 
 ##### Table of Contents
 [Getting Started](#getting-started)<br>
@@ -33,13 +35,13 @@ To create the key visit the [API Keys](https://app.sparkpost.com/account/credent
 Once there selected the required permissions and store the generated key somewhere safe as you won't be able to access it again.
 
 ### Configuring your sending domain
-The sending domain is the domain that your bot will send emails from (.e.g. my_robot@my_sending_domain.com).
+The sending domain is the domain that you will send emails from (.e.g. hi.there@sendingdomain.com).
 
 Add your domain in the [Sending Domains](https://app.sparkpost.com/account/sending-domains) section. You'll need to verify ownership of the domain through the methods provided in the UI. 
 
 ### Configuring your inbound domain
 
-Your inbound domain is the domain at which your bot will receive emails. It can be the same address as your sending domain. If you use any email address at that domain then you should use a subdomain of your sending domain or a different domain entirely. Otherwise your bot will get all your emails. 
+Your inbound domain is the domain at which you will receive emails. It can be the same address as your sending domain.
 
 Add the following MX records to your inbound domain's DNS
 

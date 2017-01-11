@@ -1,10 +1,11 @@
+'use strict';
+
 const chai = require('chai');
 const expect = chai.expect;
-var sinon = require("sinon");
-var chaiSinon = require("chai-sinon");
+const sinon = require("sinon");
 const EventsContext = require('../lib/events');
 const _ = require('lodash');
-chai.use(chaiSinon);
+chai.use(require('sinon-chai'));
 
 describe('Event Context', function() {  
   it('should be a contructor', function() {
@@ -46,8 +47,6 @@ describe('Event Context', function() {
       var context = EventsContext();
 
       var key = context.on('my_event,my_other_event', function() { /* I get called on my_event and my_other_event */ });
-
-      console.log(context);
 
       expect(context._events).to.contain.key('my_event');
       expect(context._events.my_event).to.contain.key(key);
@@ -257,5 +256,4 @@ describe('Event Context', function() {
       expect(context.unset('my_event', '1')).to.be.false;
     });
   });
-
 });
