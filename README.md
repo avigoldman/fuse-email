@@ -52,7 +52,6 @@ Name | Type | Data | Priority
 `your.inbounddomain.com` | MX | rx2.sparkpostmail.com | 10
 `your.inbounddomain.com` | MX | rx3.sparkpostmail.com | 10
 
-
 ## Setting up your fuse
 Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxtoolbox.com/)), its time to build your responder.
 
