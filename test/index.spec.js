@@ -79,7 +79,10 @@ describe('Fuse', function() {
       fuse.handle({
         html: '<h1>hello world</h1>',
         text: 'hello world',
-        to: 'not_valid@example.com'
+        to: {
+          email: 'not_valid@example.com',
+          name: 'Not valid'
+        }
       });
 
       expect(findConvoSpy).to.not.have.been.called;
@@ -91,7 +94,10 @@ describe('Fuse', function() {
       let inboundMessage = {
         html: '<h1>hello world</h1>',
         text: 'hello world',
-        to: baseConfig.address
+        to: {
+          email: baseConfig.address,
+          name: baseConfig.name
+        }
       };
 
       let findConvoStub = sinon.stub(fuse.transport, 'findConversation');
@@ -115,8 +121,14 @@ describe('Fuse', function() {
       let triggerSpy = sinon.spy(fuse, 'trigger');
 
       let inboundMessage = {
-        to: 'me@sendmailfor.me',
-        recipients: ['me@sendmailfor.me'],
+        to: {
+          email: 'me@sendmailfor.me',
+          name: 'Me'
+        },
+        recipients: [{
+          email: 'me@sendmailfor.me',
+          name: 'Me'
+        }],
         cc: [],
         bcc: [],
       };
@@ -133,8 +145,14 @@ describe('Fuse', function() {
       let triggerSpy = sinon.spy(fuse, 'trigger');
 
       let inboundMessage = {
-        to: baseConfig.address,
-        recipients: [baseConfig.address],
+        to: {
+          email: baseConfig.address,
+          name: baseConfig.name
+        },
+        recipients: [{
+          email: baseConfig.address,
+          name: baseConfig.name
+        }],
         cc: [],
         bcc: [],
       };
@@ -151,9 +169,15 @@ describe('Fuse', function() {
       let triggerSpy = sinon.spy(fuse, 'trigger');
 
       let inboundMessage = {
-        to: baseConfig.address,
+        to: {
+          email: baseConfig.address,
+          name: baseConfig.name
+        },
         recipients: [],
-        cc: [baseConfig.address],
+        cc: [{
+          email: baseConfig.address,
+          name: baseConfig.name
+        }],
         bcc: [],
       };
 
@@ -169,10 +193,16 @@ describe('Fuse', function() {
       let triggerSpy = sinon.spy(fuse, 'trigger');
 
       let inboundMessage = {
-        to: baseConfig.address,
+        to: {
+          email: baseConfig.address,
+          name: baseConfig.name
+        },
         recipients: [],
         cc: [],
-        bcc: [baseConfig.address],
+        bcc: [{
+          email: baseConfig.address,
+          name: baseConfig.name
+        }],
       };
 
       fuse.handle(inboundMessage);

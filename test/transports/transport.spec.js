@@ -33,17 +33,19 @@ describe('Transport', function() {
     expect(transport.validate('some request')).to.be.true;
   });
 
-  it('should parse the body and return an array of inboundMessage objects', function() {
+  it('should parse the body and call the callback with an array of inboundMessage objects', function() {
     let transport = Transport({});
 
     var body = {
       'give': 'me back'
     };
 
-    var inboundMessages = transport.parse(body);
+    transport.parse(body, function(inboundMessages) {
+      expect(inboundMessages).to.be.an('Array');
+      expect(inboundMessages[0]).to.be.an('Object');  
+    });
 
-    expect(inboundMessages).to.be.an('Array');
-    expect(inboundMessages[0]).to.be.an('Object');
+    
   });
 
   describe('findConversation', function() {

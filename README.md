@@ -12,6 +12,7 @@ This is a botkit-inspired framework written around the SparkPost API to make it 
 [Getting Started](#getting-started)<br>
 [Initialization](#initialization)<br>
 [Start Listening](#start-listening)<br>
+[The Address Object](#the-address-object)<br>
 [Receiving Messages](#receiving-messages)<br>
 [Sending Messages](#sending-messages)<br>
 [Having Conversations](#having-conversations)<br>
@@ -93,6 +94,11 @@ npm install fuse-email
   * Required: no
   * Type: `String`
   * An Authentication Token for the relay webhook to use to verify its identity
+* `config.size_limit`
+  * Required: no
+  * Type: `String`
+  * Default: `50mb`
+  * The maximum post size - if you get `request entity too large` errors increase this. 
 * `config.restrict_inbound`
   * Required: no
   * Type: `Boolean`
@@ -143,6 +149,15 @@ fuse.setupServer(3000, function(err, server) {
 });
 ```
 
+## The Address Object
+All email addresses are in the following format
+```
+{
+  email: 'email@example.com',
+  name: 'My Name'
+}
+```
+
 ## Receiving Messages
 
 ### The events
@@ -160,17 +175,33 @@ Name | Type | Description
 ---- | ---- | -----------
 `inboundMessage.id` | `String` | The message id of the `inboundMessage`
 `inboundMessage.event` | `String` | The event that triggered the callback
-`inboundMessage.to` | `String` | The address that received this email. *Unless `restrict_inbound` is set to `false`, this will always be your `inbound_address`*
-`inboundMessage.from` | `String` | The address who sent this email
+`inboundMessage.to` | `Object` | The address object that received this email. *Unless `restrict_inbound` is set to `false`, the `to.email` will always be your `inbound_address`*
+`inboundMessage.from` | `Object` | The address object who sent this email
 `inboundMessage.subject` | `String` | The email subject
 `inboundMessage.text` | `String` | The plaintext email body
 `inboundMessage.html` | `String` | The html email body
-`inboundMessage.recipients` | `Array` | An array of the email addresses of the original recipients
-`inboundMessage.cc` | `Array` | An array of the email addresses of the cc'd recipients
-`inboundMessage.headers` | `Object` | An object of the headers from the inbound email
+`inboundMessage.recipients` | `Array[Object]` | An array of the address objects of the original recipients
+`inboundMessage.cc` | `Array[Object]` | An array of the address objects of the cc'd recipients
+`inboundMessage.bcc` | `Array[Object]` | An array of the address objects of the bcc'd recipients
+`inboundMessage.headers` | `Object` | An object of the headers from the inbound email in a `{key: value}` format where `value` is a string if there is one value and an Array if two or more.
 `inboundMessage.attachments` | `Array` | An array of attachments from the email
-`inboundMessage._raw` | `*` | The original data received. For a SparkPost example at the `relay_message` value [here](https://developers.sparkpost.com/api/relay-webhooks.html#header-example-payloads).
+`inboundMessage._raw` | `*` | The original data received. For a SparkPost example look at the `relay_message` value [here](https://developers.sparkpost.com/api/relay-webhooks.html#header-example-payloads).
 
+
+##### Attachments example
+```
+attachments = [{
+    contentType: 'image/png',
+    fileName: 'image.png',
+    contentDisposition: 'attachment',
+    contentId: '5.1321281380971@localhost',
+    transferEncoding: 'base64',
+    length: 126,
+    generatedFileName: 'image.png',
+    checksum: 'e4cef4c6e26037bcf8166905207ea09b',
+    content: <Buffer ...>
+}];
+```
 
 ### Registering Event Listeners
 There are two methods for receiving messages: `on` and `hear`. Both of these functions take a callback. These callbacks are given a `responder` object and a `inboundMessage` object.
@@ -230,13 +261,13 @@ Name | Type | Description
 `message.body` or `message.html` | `String` | The body of the email.
 `message.text` | `String` | If this is not given then it will be generated from the html.
 `message.headers` | `Object` | Email headers other than “Subject”, “From”, “To”, and “Reply-To”
-`message.recipients` | `Array` | An array of email addresses.
-`message.cc` | `Array` |  An array of email addresses to receive a carbon copy.
-`message.bcc` | `Array` |  An array of email addresses to receive a blind carbon copy.
+`message.recipients` | `Array[Object]` | An array of email addresses.
+`message.cc` | `Array[Object]` |  An array of email addresses to receive a carbon copy.
+`message.bcc` | `Array[Object]` |  An array of email addresses to receive a blind carbon copy.
 `message.substitution_data` | `String` | Any substitution data for the email.
 `message.attachments` | `Array` | An array of attachments to send with the email. See the [SparkPost docs](https://developers.sparkpost.com/api/transmissions.html#header-attachment-attributes) for more details.
-`message.from` | `String` | Overrides the sending_address for this message.
-`message.reply_to` | `String` | Overrides the inbound_address for this message.
+`message.from` | `Object` | An address object to override `config.name` and `config.sending_address` for this message.
+`message.reply_to` | `Object` | An address object to override `config.name` and `config.inbound_address` for this message.
 
 #### `responder.send(outboundMessage)`
 This will send send a new email with the given content. If recipients of any type are given the recipients and cc will default to the values from the received email.
@@ -277,8 +308,8 @@ Name | Type | Required | Description
 ---- | ---- | -------- | -----------
 `config` | `String` or `Object` | yes | If this is a string then it is the subject of the conversation.
 `config.subject` | `String` | yes | The subject for the new thread of messages for this conversation. This is required.
-`config.recipients` | `Array` | no |  An array of SparkPost-formatted recipients. This will default to the recipients of the `inboundMessage` that returned with this responder. This is required if starting a conversation from a standalone responder.
-`config.cc` | `Array` | no |  An array of SparkPost-formatted recipients to receive a carbon copy. This will default to the recipients of the `inboundMessage` that returned with this responder.
+`config.recipients` | `Array[Object]` | no |  An array of address objects. This will default to the recipients of the `inboundMessage` that was returned with this responder. This is required if starting a conversation from a standalone responder.
+`config.cc` | `Array[Object]` | no |  An array of address objects to receive a carbon copy. This will default to the cc'd recipients of the `inboundMessage` that was returned with this responder.
 `config.timeout_after` | `Number` | no | Milliseconds to wait before the conversation times out. Defaults to `600000`. (10 minutes).
 
 
@@ -304,9 +335,9 @@ The handler function will receive a `message` object and the same `convo` object
 responder.startConversation('Tell me about yourself!', function(convo) {
   convo.ask({
     body: 'What\'s your name?'
-  }, function(convo, response) {
+  }, function(convo, inboundMessage) {
   
-    let name = sparky.clean(sparky.getLatest(response));
+    let name = sparky.clean(sparky.getLatest(inboundMessage));
 
     convo.send({
       body: 'Nice to meet you, {{name}}',
