@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/avrahamgoldman/email-bot-framework.svg?branch=master)](https://travis-ci.org/avrahamgoldman/email-bot-framework)
+[![Build Status](https://travis-ci.org/avrahamgoldman/fuse-email.svg?branch=master)](https://travis-ci.org/avrahamgoldman/fuse-email)
+[![Coverage Status](https://coveralls.io/repos/github/avrahamgoldman/fuse-email/badge.svg)](https://coveralls.io/github/avrahamgoldman/fuse-email)
 
-# Email Bot Framework
+# Fuse - automating email conversations
 ### A framework for writing conversational email responders
 
 [SparkPost](https://sparkpost.com) is a cloud email service that allows developers to send and receive emails.
@@ -30,7 +31,6 @@ Inbound Domains: Read/Write<br>
 Relay Webhooks: Read/Write<br>
 Transmissions: Read/Write<br>
 
-
 To create the key visit the [API Keys](https://app.sparkpost.com/account/credentials) section in the SparkPost app under Account. 
 Once there selected the required permissions and store the generated key somewhere safe as you won't be able to access it again.
 
@@ -52,17 +52,17 @@ Name | Type | Data | Priority
 `your.inbounddomain.com` | MX | rx3.sparkpostmail.com | 10
 
 
-## Setting up the bot
-Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxtoolbox.com/), its time to build your bot.
+## Setting up your fuse
+Once the DNS changes have propagated (you can check the [mxtoolbox](https://mxtoolbox.com/)), its time to build your responder.
 
 ### Installation
 ```
-npm install thename
+npm install fuse-email
 ```
 
 ## Initialization
 
-#### EmailBot(config)
+#### Fuse(config)
 * `config.email_key`
   * Required: yes
   * Type: `String`
@@ -70,15 +70,15 @@ npm install thename
 * `config.sending_address`
   * Required: yes
   * Type: `String`
-  * A valid email for the bot to send mail from
-* `config.inbound_domain`
+  * A valid email for the responder to send mail from
+* `config.inbound_address`
   * Required: yes
   * Type: `String`
-  * A valid email for the bot to receive mail at
+  * A valid email for the responder to receive mail at
 * `config.domain`
   * Required: yes
   * Type: `String`
-  * The domain you are using to host your bot
+  * The domain you are using to host your responder
 * `config.endpoint`
   * Required: no
   * Type: `String`
@@ -88,7 +88,7 @@ npm install thename
   * Required: no
   * Type: `String`
   * Default: `Sparky`
-  * The name of your bot
+  * The name of your responder
 * `config.auth_token`
   * Required: no
   * Type: `String`
@@ -106,45 +106,39 @@ npm install thename
 * `config.transport`
   * Required: no
   * Type: `String`
-  * Default: `SparkPost`
+  * Default: `sparkpost`
   * The transport to use
-* `config.debug_mode`
-  * Required: no
-  * Type: `Boolean`
-  * Default: `false`
-  * Toggles if the bot will send emails
 
-
-Next you'll need to create an instance of the bot 
+Next you'll need to create a Fuse instance 
 ```
-var EmailBot = require('thename');
+var Fuse = require('fuse-email');
 
-var sparky = EmailBot({
-    email_key: 'SPARKPOST_API_KEY',
-    name: 'NAME',
-    sending_address: 'robot@MY_SENDING_DOMAIN',
-    inbound_address: 'robot@MY_INBOUND_DOMAIN',
-    domain: 'MY_DOMAIN'
-  });
+var fuse = Fuse({
+  email_key: 'SPARKPOST_API_KEY',
+  name: 'NAME',
+  sending_address: 'robot@MY_SENDING_DOMAIN',
+  inbound_address: 'robot@MY_INBOUND_DOMAIN',
+  domain: 'MY_DOMAIN'
+});
 ```
 
 
 ## Start Listening
 
-#### `sparky.setupServer(port, callback)`
+#### `fuse.setupServer(port, callback)`
 Starts an express server at the given port. The callback is called  when the server is running.
 ```
-sparky.setupServer(3000, function(err, server) {
+fuse.setupServer(3000, function(err, server) {
   // the server is up
 });
 ```
 
-#### `sparky.setupEndpoint(server, callback)`
+#### `fuse.setupEndpoint(server, callback)`
 Sets up an endpoint based on `config.endpoint` to receive the data from the relay webhook from SparkPost. 
 ```
-sparky.setupServer(3000, function(err, server) {
-  sparky.setupEndpoint(server, function() {
-  	// the bot is now running
+fuse.setupServer(3000, function(err, server) {
+  fuse.setupEndpoint(server, function() {
+  	// fuse is now running
   });
 });
 ```
@@ -154,42 +148,45 @@ sparky.setupServer(3000, function(err, server) {
 ### The events
 Name | Description
 ---- | -----------
-`direct_email` | The bot received an email as an original recipient
-`cc_email` | The bot received an email as a cc'd recipient
-`bcc_email` | The bot received an email as a bcc'd recipient
-`email_received` | The bot received an email - this always fires unless there is a conversation happening
+`direct_email` | The responder received an email as an original recipient
+`cc_email` | The responder received an email as a cc'd recipient
+`bcc_email` | The responder received an email as a bcc'd recipient
+`email_received` | The responder received an email - this always fires unless there is a conversation happening
 
-### The `message` object
-The message object is returned to the event listeners.
+### The `inboundMessage` object
+The `inboundMessage` object is returned to the event listeners.
 
 Name | Type | Description
 ---- | ---- | -----------
-`message.event` | `String` | The event that triggered the callback
-`message.to` | `String` | The address that received this email. *Unless `restrict_inbound` is set to `false`, this will always be your `inbound_address`*
-`message.from` | `String` | The address who sent this email
-`message.subject` | `String` | The email subject
-`message.text` | `String` | The plaintext email body
-`message.html` | `String` | The html email body
-`message.recipients` | `Array` | An array of the email addresses of the original recipients
-`message.cc` | `Array` | An array of the email addresses of the cc'd recipients 
-`message._raw` | `Object` | The original message sent by SparkPost. For an example look [here](https://developers.sparkpost.com/api/relay-webhooks.html#header-example-payloads) at the `relay_message`
+`inboundMessage.id` | `String` | The message id of the `inboundMessage`
+`inboundMessage.event` | `String` | The event that triggered the callback
+`inboundMessage.to` | `String` | The address that received this email. *Unless `restrict_inbound` is set to `false`, this will always be your `inbound_address`*
+`inboundMessage.from` | `String` | The address who sent this email
+`inboundMessage.subject` | `String` | The email subject
+`inboundMessage.text` | `String` | The plaintext email body
+`inboundMessage.html` | `String` | The html email body
+`inboundMessage.recipients` | `Array` | An array of the email addresses of the original recipients
+`inboundMessage.cc` | `Array` | An array of the email addresses of the cc'd recipients
+`inboundMessage.headers` | `Object` | An object of the headers from the inbound email
+`inboundMessage.attachments` | `Array` | An array of attachments from the email
+`inboundMessage._raw` | `*` | The original data received. For a SparkPost example at the `relay_message` value [here](https://developers.sparkpost.com/api/relay-webhooks.html#header-example-payloads).
 
 
 ### Registering Event Listeners
-There are two methods for receiving messages: `on` and `hear`. Both of these functions take a callback to be called. These callbacks are given a `bot` object and a `message` object.
+There are two methods for receiving messages: `on` and `hear`. Both of these functions take a callback. These callbacks are given a `responder` object and a `inboundMessage` object.
 
-#### `sparky.on(events, callback)`
+#### `fuse.on(events, callback)`
 To stop all subsequent listeners, return `false` 
 
 Name | Type | Description
 ---- | ---- | -----------
-`events` | `String` or `Array` | A comma delaminated list or an array of events to on which to run this function
-`callback` | `Function` | The function to be called when any of the given events takes place
+`events` | `String` or `Array` | A comma delaminated list or an array of events on which to run this function
+`callback` | `Function` | The function to be called when any of the given events take place
 
 Example:
 ```
-sparky.on('email_received', function(bot, message) {
-  bot.say({
+fuse.on('email_received', function(responder, inboundMessage) {
+  responder.send({
     subject: 'Hello World',
     body: 'What a nice day we are having!'
   });
@@ -197,18 +194,18 @@ sparky.on('email_received', function(bot, message) {
 ```
 
 
-#### `sparky.hears(patterns, events, callback)`
+#### `fuse.hears(patterns, events, callback)`
 *If a message matches a `hears` listener all subsequent listeners are ignored.*
 
-The `hears` function works just like the `on` function except it takes an extra parameter, `patterns`. This parameter can be either an array or object. If it's an array then the bot checks if either the subject or the body matches any of the given patterns. If it's an object then it can have a `subject` and/or `body` property, each of which should be an array of patterns to check against. All the patterns should either be Regular Expressions or strings.
+The `hears` function works just like the `on` function except it takes an extra parameter, `patterns`. This parameter can be either an array or object. If it's an array then the patterns are checked against the subject and body. If it's an object then it can have a `subject` and/or `body` property, each of which should be an array of patterns to check against. All the patterns should either be Regular Expressions or strings.
 
 Example:
 ```
-sparky.hears({
+fuse.hears({
   subject: ['hello', 'hi'],
   body: ['howdy', 'sup'],
-}, 'direct_email', function(bot, message) {
-  bot.say({
+}, 'direct_email', function(responder, inboundMessage) {
+  responder.send({
     subject: 'Hello there',
     body: 'Hello to you too!'
   });
@@ -217,124 +214,124 @@ sparky.hears({
 
 ## Sending Messages
 
-### The `bot` object
-The `bot` object drives responding to messages. It is returned to all event listeners.
-You can create a standalone bot to say something or start a conversation by calling the `bot` method.
+### The `responder` object
+The `responder` object drives responding to messages. It is returned to all event listeners.
+You can create a standalone responder to send something or start a conversation by calling the `responder` method.
 
 ```
-var bot = sparky.bot();
+var responder = fuse.responder();
 ```
-Keep in mind that the `reply` and `startPrivateConversation` methods will not work as they are reactions to received messages.
+Keep in mind that the `reply` and `startPrivateConversation` methods will not work as they are reactions to inbound messages.
 
-#### `bot.say(message)`
-This will send send a new email with the given content. If none are given, the recipients, cc, and bcc will default to the values from the received email.
-
-```
-bot.say({
-  subject: 'Hello World',
-  body: '<h2>What a nice {{time}} we are having!</h2>',
-  text: 'What a nice {{time}} we are having!',
-  substitution_data: {
-  	time: 'day'
-  }
-});
-```
-
-##### Message options
+### The `outboundMessage` object
 Name | Type | Description
 ---- | ---- | -----------
 `message.subject` | `String` | The subject of the email.
 `message.body` or `message.html` | `String` | The body of the email.
 `message.text` | `String` | If this is not given then it will be generated from the html.
 `message.headers` | `Object` | Email headers other than “Subject”, “From”, “To”, and “Reply-To”
-`message.recipients` | `Array` | An array of SparkPost-formatted recipients. [SparkPost recipient format.](https://developers.sparkpost.com/api/recipient-lists.html#header-recipient-attributes)
-`message.cc` | `Array` |  An array of SparkPost-formatted recipients to receive a carbon copy.
-`message.bcc` | `Array` |  An array of SparkPost-formatted recipients to receive a blind carbon copy.
+`message.recipients` | `Array` | An array of email addresses.
+`message.cc` | `Array` |  An array of email addresses to receive a carbon copy.
+`message.bcc` | `Array` |  An array of email addresses to receive a blind carbon copy.
 `message.substitution_data` | `String` | Any substitution data for the email.
 `message.attachments` | `Array` | An array of attachments to send with the email. See the [SparkPost docs](https://developers.sparkpost.com/api/transmissions.html#header-attachment-attributes) for more details.
 `message.from` | `String` | Overrides the sending_address for this message.
 `message.reply_to` | `String` | Overrides the inbound_address for this message.
 
-#### `bot.reply(receivedMessage, yourMessage)`
-
-This method is identical to the `say` method except it will reply to the sent message. As such you can not set the `subject`, `recipients`, or `cc`.
+#### `responder.send(outboundMessage)`
+This will send send a new email with the given content. If recipients of any type are given the recipients and cc will default to the values from the received email.
 
 ```
-sparky.on('email_received', function(bot, message) {
-  
-  bot.reply(message, {
+fuse.on('direct_email', function(responder, inboundMessage) {
+  responder.send({
+    subject: 'Hello World',
+    body: '<h2>What a nice {{time}} we are having!</h2>',
+    substitution_data: {
+    	time: 'day'
+    }
+  });
+});
+```
+
+#### `responder.reply(outboundMessage)`
+
+This method is identical to the `send` method except it will reply to the sent message. As such you can not set the `subject`, `recipients`, or `cc`.
+
+```
+fuse.on('email_received', function(responder, inboundMessage) {
+  responder.reply({
     body: 'I got your message!'
   });
-
 });
 ```
 
 
 ## Having Conversations
 
-The bot has two methods for starting a conversation.
+The responder has two methods for starting conversations.
 
-#### `bot.startConversation(config, callback)`
+#### `responder.startConversation(config, callback)`
 Starts a conversation with everyone from the received message or the specified `recipients` and `cc` recipients.
 
 Name | Type | Required | Description
 ---- | ---- | -------- | -----------
-`config` | `String` or `Object` | yes | If this is a string then it is the topic of the conversation.
-`config.topic` | `String` | yes | The subject for the new thread of messages for this conversation. This is required.
-`config.recipients` | `Array` | yes |  An array of SparkPost-formatted recipients. This will default to the recipients of the message that returned this bot.
-`config.cc` | `Array` | no |  An array of SparkPost-formatted recipients to receive a carbon copy. This will default to the cc'd recipients of the message that returned this bot.
+`config` | `String` or `Object` | yes | If this is a string then it is the subject of the conversation.
+`config.subject` | `String` | yes | The subject for the new thread of messages for this conversation. This is required.
+`config.recipients` | `Array` | no |  An array of SparkPost-formatted recipients. This will default to the recipients of the `inboundMessage` that returned with this responder. This is required if starting a conversation from a standalone responder.
+`config.cc` | `Array` | no |  An array of SparkPost-formatted recipients to receive a carbon copy. This will default to the recipients of the `inboundMessage` that returned with this responder.
+`config.timeout_after` | `Number` | no | Milliseconds to wait before the conversation times out. Defaults to `600000`. (10 minutes).
 
 
-#### `bot.startPrivateConversation(topic, callback)`
-Starts a conversation with the person who sent the message.
-
+#### `responder.startPrivateConversation(topic, callback)`
+Starts a conversation with the person who sent the `inboundMessage`. This can not be used from a standalone responder.
 
 ### the `convo` object
 When a conversation is started it the callback receives a convo object.
 
-#### `convo.say(message)`
-This works just like the `reply` method of the `bot` object. It will send the message to all the participants of this conversation.
+#### `convo.send(outboundMessage)`
+This works just like the `reply` method of the `responder` object. It will send the message to all the participants of this conversation.
 
-#### `convo.ask(message, handler)`
+#### `convo.ask(outboundMessage, handler)`
 Name | Type | Description
 ---- | ---- | -----------
-message | `Object` | See the [message options](#message-options)
+message | `Object` | See the [outboundMessage options](#the-outboundmessage-object)
 handler | `Function` | This will be called when someone replies to the question.
 
 The handler function will receive a `message` object and the same `convo` object to continue the conversation.
 
 ```
-bot.startConversation('Tell me about yourself!', function(convo) {
-
+// from event listener
+responder.startConversation('Tell me about yourself!', function(convo) {
   convo.ask({
     body: 'What\'s your name?'
   }, function(convo, response) {
   
     let name = sparky.clean(sparky.getLatest(response));
 
-    convo.say({
+    convo.send({
       body: 'Nice to meet you, {{name}}',
       substitution_data: {
         name: name
       }
     });
 
-    convo.end();
-
   });
 
 }); 
 ```
 
+#### `convo.wait()`
+This function keeps the conversation alive while preforming asynchronous tasks until you can ask a question. See an example [here](/tree/master/examples/async-wait.js).
+
+
 #### `convo.end()`
-Call this function to end the conversation.
+Call this function to force the conversation to end.
 
-
-## Helper functions
+## Util functions
 These are a few functions to make your life easier.
 
-#### `sparky.clean(str)`
+#### `fuse.clean(str)`
 Returns the given string stripped of any html tags, trailing spaces, and line breaks.
 
-#### `sparky.getLatest(message)`
+#### `fuse.getLatest(message)`
 Returns the latest text message from an email thread.

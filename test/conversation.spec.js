@@ -36,7 +36,7 @@ describe('Conversation', function() {
     let convo = Conversation(fuse, {}, function() {});
 
     expect(convo).to.be.an('object');
-    expect(convo).to.contain.all.keys('start', 'handle', 'end', 'timeout', 'say', 'ask', 'wait', 'hasMessages', 'isActive');
+    expect(convo).to.contain.all.keys('start', 'handle', 'end', 'timeout', 'send', 'ask', 'wait', 'hasMessages', 'isActive');
   });
 
   describe('start function', function() {
@@ -97,7 +97,7 @@ describe('Conversation', function() {
       }, timeout);
   });
 
-  describe('say function', function() {
+  describe('send function', function() {
     let fuse = Fuse(baseConfig);
     let convo = Conversation(fuse, {}, function() {});
   });
