@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node lib/index.js",
     "test": "istanbul cover --report lcov --dir test/reports/ _mocha --recursive ./test/ --grep ./test/**/*.spec.js -- --colors --reporter spec",
-    "coveralls": "cat ./test/reports/lcov.info | coveralls"
+    "coveralls": "cat ./test/reports/lcov.info | ./node_modules/.bin/coveralls"
   },
   "author": "",
   "license": "ISC",
