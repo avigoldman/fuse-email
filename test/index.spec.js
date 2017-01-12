@@ -45,11 +45,11 @@ describe('Fuse', function() {
     });
 
     it('should run setup when setup is true', function() {
-      var fuse = Fuse(_.defaults({
-        setup: true
-      }, baseConfig));
+      var fuse = Fuse(baseConfig);
 
-      expect(fuse.transport.ran_setup).to.be.true;
+      fuse.setupTransport(function() {
+        expect(fuse.transport.ran_setup).to.be.true;
+      });
     });
   });
 

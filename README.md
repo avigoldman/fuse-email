@@ -104,11 +104,6 @@ npm install fuse-email
   * Type: `Boolean`
   * Default: `true`
   * Whether or not to process inbound emails that were sent to an different email address
-* `config.setup`
-  * Required: no
-  * Type: `Boolean`
-  * Default: `true`
-  * Whether or not to run the setup with the transport *Should be turned off in production.*
 * `config.transport`
   * Required: no
   * Type: `String`
@@ -130,6 +125,15 @@ var fuse = Fuse({
 
 
 ## Start Listening
+
+#### `fuse.setupTransport(callback)`
+Runs the setup for the transport. This will make sure you are setup correctly with SparkPost. Do not use this in production.
+```
+fuse.setupTransport(function() {
+  // setup the server and endpoint
+});
+```
+
 
 #### `fuse.setupServer(port, callback)`
 Starts an express server at the given port. The callback is called  when the server is running.
