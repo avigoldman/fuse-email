@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "html-minifier": "^3.2.3",
     "html-to-text": "^2.1.3",
     "lodash": "^4.17.2",
     "mailparser": "^0.6.1",

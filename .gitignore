@@ -1,6 +1,5 @@
 /node_modules
 npm-debug.log
 /examples/example.json
-test.js
-.env
+/examples/test.js
 /test/reports

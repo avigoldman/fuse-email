@@ -1,27 +1,25 @@
 'use strict';
 
-require('dotenv').config();
+const Fuse = require('../lib/');
+const port = process.env.PORT || 3000;
 
-var EmailBot = require('../lib/bot.js');
-
-var port = process.env.PORT || 3000;
-
-// create the email bot
-var sparky = EmailBot({
-  email_key: process.env.SPARKPOST_KEY,
-  bot_name: 'Me', 
-  sending_address: 'me@sendmailfor.me',
-  inbound_address: 'me@sendmailfor.me',
-  domain: YOUR_DOMAIN
+const fuse = Fuse({
+  email_key: YOUR_SPARKPOST_KEY,
+  domain: YOUR_DOMAIN,
+  name: 'Robot', 
+  sending_address: 'robot@sendmailfor.me',
+  inbound_address: 'robot@sendmailfor.me',
 });
 
-
-sparky.setupServer(port, function(err, server) {
-  sparky.setupEndpoint(server);
+fuse.setupTransport(function() {
+  fuse.setupServer(port, function(err, server) {
+    fuse.setupEndpoint(server);
+  });
 });
 
-sparky.on('email_received', function(bot, message) {
-  bot.reply(message, {
-    body: 'I\'m under construction, try again later.'
+fuse.on('email_received', function(responder, inboundMessage) {
+  responder.send({
+    subject: 'I\'m out',
+    body: 'I\'m out of the office this week.'
   });
 });

@@ -127,7 +127,7 @@ var fuse = Fuse({
 ## Start Listening
 
 #### `fuse.setupTransport(callback)`
-Runs the setup for the transport. This will make sure you are setup correctly with SparkPost. Do not use this in production.
+Runs the setup for the transport. This will make sure you are setup correctly with your transport. Do not use this in production.
 ```
 fuse.setupTransport(function() {
   // setup the server and endpoint
