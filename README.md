@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/avrahamgoldman/fuse-email.svg?branch=master)](https://travis-ci.org/avrahamgoldman/fuse-email)
 [![Coverage Status](https://coveralls.io/repos/github/avrahamgoldman/fuse-email/badge.svg)](https://coveralls.io/github/avrahamgoldman/fuse-email)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Fuse - automating email conversations
 ### A framework for writing conversational email responders

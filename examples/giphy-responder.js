@@ -12,8 +12,8 @@ var port = process.env.PORT || 3000;
 
 // create the email bot
 var sparky = EmailBot({
-  email_key: process.env.SPARKPOST_KEY,
-  bot_name: 'Gif me', 
+  email_key: 'SPARKPOST_KEY',
+  name: 'Gif me', 
   sending_address: 'gifme@sendmailfor.me',
   inbound_address: 'gifme@sendmailfor.me',
   domain: YOUR_DOMAIN

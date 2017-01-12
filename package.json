@@ -1,15 +1,14 @@
 {
-  "name": "email-bot",
-  "version": "0.1.0",
-  "description": "",
+  "name": "fuse-email",
+  "version": "0.0.1-alpha.0",
+  "description": "A framework for writing conversational email responders",
   "main": "lib/index.js",
   "scripts": {
-    "start": "node lib/index.js",
     "test": "istanbul cover --report lcov --dir test/reports/ _mocha --recursive ./test/ --grep ./test/**/*.spec.js -- --colors --reporter spec",
     "coveralls": "cat ./test/reports/lcov.info | ./node_modules/.bin/coveralls"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Avi Goldman",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
@@ -17,7 +16,7 @@
     "lodash": "^4.17.2",
     "mailparser": "^0.6.1",
     "parse-reply": "0.0.4",
-    "sparkpost": "git://github.com/SparkPost/node-sparkpost.git",
+    "sparkpost": "^2.1.1",
     "uniqid": "^4.1.1",
     "winston": "^2.3.0"
   },
