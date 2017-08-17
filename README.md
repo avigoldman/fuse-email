@@ -22,7 +22,7 @@ This is a botkit-inspired framework written around the SparkPost API to make it 
 
 ## Getting Started
 
-Before setting this framework up you'll first need a SparkPost account. SparkPost lets you send 15,000 emails per month which should be plenty to get started. You can sign up [here](https://app.sparkpost.com/sign-up).
+Before setting this framework up you'll first need a SparkPost account. SparkPost lets you send 15,000 emails per month for free with their [Developer Account](https://www.sparkpost.com/pricing/#developer-plan) which should be plenty to get started. You can sign up [here](https://sparkpo.st/1lent).
 
 ### Creating an API Key
 
